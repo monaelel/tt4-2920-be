@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: tt4-2920-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false
+
+  - type: web
+    name: tt4-2920-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist/frontend/browser
+    envVars:
+      - key: API_URL
+        fromService:
+          type: web
+          name: tt4-2920-backend
+          envVarKey: RENDER_EXTERNAL_URL
